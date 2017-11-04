@@ -41,7 +41,7 @@ def login(request):
 			# print username, password
 			user = auth.authenticate(username=username, password=password)
 			if user is not None:
-				print user.is_superuser
+				# print user.is_superuser
 				auth.login(request, user)
 				messages.success(request, "Login Successful")
 				return HttpResponseRedirect(reverse('home'))
@@ -110,7 +110,7 @@ def register(request):
 		cursor.execute("Select Head from Grp where Name='"+grp+"';")
 		m = str(cursor.fetchone()[0])
 		s = "Insert into auth_user(password, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, img) values('"+password+"',0,'"+username+"','"+first_name+"','"+last_name+"','"+email+"',0,1,'"+str(datetime.now())+"', '"+str(im).encode('hex')+"');"
-		print s
+		# print s
 		cursor.execute(s)
 		cursor.execute("Select max(id) from auth_user;")
 		u = str(int(cursor.fetchone()[0]))
@@ -370,7 +370,7 @@ def events(request):
 	# print pstudent
 
 	p = [[past[i], pstudent[i]] for i in range(len(past))]
-	print p
+	# print p
 	return render(request, 'homepage/events.html', {'up':upcoming, 'p':p})
 
 # def sponsors(request):
@@ -459,14 +459,14 @@ def dashboard(request):
 		email = request.GET.get('email')
 
 		s = "update auth_user set username='"+username+"', email='"+email+"' where id="+str(u[0])+";"
-		print s
+		# print s
 		cursor.execute(s)
 		# print "b"
 		post = request.GET.get('post')
 		data=(data[0], name, Branch, year, post, grp, ph, data[7])
 		u[7]=email
 		u[4]=username
-		print username
+		# print username
 		if post=="Student":
 			s = "update Student set Name='"+name+"', Branch='"+Branch+"', year="+str(year)+", grp='"+grp+"', Contact='"+ph+"' where User="+str(u[0])+";"
 		else:
@@ -618,7 +618,7 @@ def cproj(request):
 		topic = request.GET.get('topic')
 		dat = datetime.today()
 		desc = request.GET.get('Description')
-		print "Insert into Projects values("+str(mentor)+", '"+topic+"', '"+str(dat)+"', 'active', '"+desc+"');"
+		# print "Insert into Projects values("+str(mentor)+", '"+topic+"', '"+str(dat)+"', 'active', '"+desc+"');"
 		cursor.execute("Insert into Projects values("+str(mentor)+", '"+topic+"', '"+str(dat)+"', 'active', '"+desc+"');")
 		date_time=datetime.now()
 		s="Insert into Notifications(aid,note,date_time) values("+str(request.user.id)+", 'Your project ~"+topic+"~ is created', '"+str(date_time)+"');"
@@ -742,7 +742,7 @@ def jproj(request):
 	stud = cursor.fetchone()
 	cursor.execute("Select User from Mentor where ID="+str(ment)+";")
 	mmm = cursor.fetchone()[0]
-	print "Select count(*) from Workers where student="+str(stud[0])+", mentor="+str(ment)+", Topic='"+topic+"', StartDate='"+finald+"';"
+	# print "Select count(*) from Workers where student="+str(stud[0])+", mentor="+str(ment)+", Topic='"+topic+"', StartDate='"+finald+"';"
 	cursor.execute("Select count(*) from Workers where student="+str(stud[0])+" and mentor="+str(ment)+" and Topic='"+topic+"' and StartDate='"+finald+"';")
 	x = cursor.fetchone()[0]
 	if x==1:
@@ -772,7 +772,7 @@ def cevent(request):
 		dat = request.GET.get('dat')
 		vl = request.GET.get('vl')
 		t = request.GET.get('type')
-		print "Insert into Events values("+str(mentor)+", '"+name+"', '"+str(dat)+"', '"+t+"', '"+vl+"');"
+		# print "Insert into Events values("+str(mentor)+", '"+name+"', '"+str(dat)+"', '"+t+"', '"+vl+"');"
 		cursor.execute("Insert into Events values("+str(mentor)+", '"+name+"', '"+str(dat)+"', '"+t+"', '"+vl+"');")
 		date_time=datetime.now()
 		s="Insert into Notifications(aid,note,date_time) values("+str(request.user.id)+", 'Your event ~"+name+"~ is created', '"+str(date_time)+"');"
@@ -819,17 +819,17 @@ def jev(request):
 	# 	date_=date_+dat[i]
 	# 	i+=1
 	# finald=date_+'-'+finald
-	print str(dat)
+	# print str(dat)
 	cursor = connection.cursor()
 	cursor.execute("Select ID, Name from Student where User="+str(request.user.id)+";")
 	stud = cursor.fetchone()
-	print "Select * from Events where mentor="+str(ment)+", name='"+topic+"', date_time='"+str(dat)+"';"
+	# print "Select * from Events where mentor="+str(ment)+", name='"+topic+"', date_time='"+str(dat)+"';"
 	cursor.execute("Select * from Events where mentor="+str(ment)+" and name='"+topic+"' and date_time='"+str(dat)+"';")
 	y=cursor.fetchone()
 	flag=False
 	if y[3]=="Competition":
 		flag=True
-	print "Select count(*) from Participation where ID="+str(stud[0])+" and mentor="+str(ment)+" and event='"+topic+"' and date_time='"+str(dat)+"';"
+	# print "Select count(*) from Participation where ID="+str(stud[0])+" and mentor="+str(ment)+" and event='"+topic+"' and date_time='"+str(dat)+"';"
 	cursor.execute("Select User from Mentor where ID="+str(ment)+";")
 	mmm = cursor.fetchone()[0]
 	cursor.execute("Select count(*) from Participation where ID="+str(stud[0])+" and mentor="+str(ment)+" and event='"+topic+"' and date_time='"+str(dat)+"';")
@@ -919,7 +919,7 @@ def attend_meet(request):
 	cursor=connection.cursor()
 	cursor.execute("Select id, topic, venue, date_time from Meetings where date_time>='"+str(datetime.now())+"';")
 	data = cursor.fetchall()
-	print data
+	# print data
 	cursor.execute("Select ID from Mentor where User="+str(aid)+";")
 	y=cursor.fetchone()[0]
 	cursor.execute("Select ma.meeting_id, m.Name from Mentor as m, MeetingAttendees as ma where ma.admin_id=m.ID;")
