@@ -1,0 +1,178 @@
+<html>
+<head>
+    <title>Home</title>
+	<style>
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+
+header li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+header li:last-child {
+    border-right: none;
+}
+
+header li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #10004C;
+}
+
+header li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+form {
+    border: 3px solid #f1f1f1;
+}
+
+input[type=text], input[type=password] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #10004C;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 15%;
+    border-radius: 100%;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+	</style>
+</head>
+<body bgcolor=#aaaaaa>
+
+	<header>
+	<h1 align="center"><i>Club of Programmers, IIT (BHU)</i> </h1>
+	<ul>
+        <li><a href="/">Home</a></li>
+		<li class="dropdown"><a href="javascript:void(0)" class="dropbtn">Groups</a>
+		<div class="dropdown-content">
+      <a href="/cpg">CPG</a>
+      <a href="/ml">Machine Learning</a>
+      <a href="/dev">Development</a>
+      <a href="/infosec">Information Security</a>
+      <a href="/fin">Finance</a>
+    </div>
+		</li>
+		<!-- <li><a href="/sponsors">Sponsors</a></li> -->
+		<li><a href="/merchandise">Merchandise</a></li>
+		<li><a href="/events">Events</a></li>
+		<li><a href="/projects">Projects</a></li>
+        <li><a href="/admin">Admins</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="/profile">Dashboard</a></li>
+            <li style="float:right"><a href="/logout">Logout</a></li>
+            <li  class="active" style="float:right"><a href="/notifications">Notifications</a></li>
+        {% else %}
+            <li style="float:right"><a href="/register">Register</a></li>
+            <li style="float:right"><a href="/login">Login</a></li>
+        {% endif %}
+	</ul>
+	</header>
+    
+    <ul style="list-style-type: none; padding-left:0;">
+        {% for message in unread %}
+        <li style="background-color: rgba(0,0,255,0.2);">&nbsp&nbsp&nbsp&nbsp{{message.0}}</li>
+        {% endfor %}
+        {% for message in read %}
+        <li>&nbsp&nbsp&nbsp&nbsp{{message.0}}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<html>
+<head>
+	<style>
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+
+header li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+header li:last-child {
+    border-right: none;
+}
+
+header li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #10004C;
+}
+
+header li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+form {
+    border: 3px solid #f1f1f1;
+}
+
+input[type=text], input[type=password] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #10004C;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 20%;
+    border-radius: 50%;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.alert
+{
+    border-radius: 2px;
+    background-color: #6caee0;
+    color: #ffffff;
+    padding: 14px 22px;
+    margin: 30px auto;
+}
+
+.alert-success
+{
+    color:#3c763d;
+    background-color:#dff0d8;
+    border-color:#d6e9c6;
+}
+
+.alert-danger
+{
+    color:#a94442;
+    background-color:#f2dede;
+    border-color:#ebccd1;
+}
+
+	</style>
+</head>
+<body bgcolor=#aaaaaa>
+
+	<header>
+	<h1 align="center"><i>Club of Programmers, IIT (BHU)</i> </h1>
+	<ul>
+        <li><a href="/">Home</a></li>
+        <li class="dropdown"><a href="javascript:void(0)" class="dropbtn">Groups</a>
+        <div class="dropdown-content">
+      <a href="/cpg">CPG</a>
+      <a href="/ml">Machine Learning</a>
+      <a href="/dev">Development</a>
+      <a href="/infosec">Information Security</a>
+      <a href="/fin">Finance</a>
+    </div>
+        </li>
+        <!-- <li><a href="/sponsors">Sponsors</a></li> -->
+        <li><a href="/merchandise">Merchandise</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/admin">Admins</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="/profile">Dashboard</a></li>
+            <li style="float:right"><a href="/logout">Logout</a></li>
+            <li style="float:right"><a href="/notifications">Notifications</a></li>
+        {% else %}
+            <li class="active" style="float:right"><a href="/register">Register</a></li>
+            <li style="float:right"><a href="/login">Login</a></li>
+        {% endif %}
+    </ul>
+	</header>
+
+    {% load staticfiles %}
+    {% if messages %}
+    <center>
+    <div style="max-width:550px;">
+        {% for message in messages %}
+        <div {% if message.tags == 'error' %} class="alert alert-danger" role="alert" {% else %} class="alert alert-success" {% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+    </center>
+    {% endif %}
+    <form method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+                <div class="container">
+            <label><b>First Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b></label>
+            <input type="text" placeholder="Enter name" name="name" required><br>
+
+            <label><b>Last Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b></label>
+            <input type="text" placeholder="Enter surname" name="surname" required><br>
+
+            <label><b>Avatar</b></label>
+            <input type="file" name="pic" accept="image/*">
+
+            <label><b>Username:</b></label>
+            <input type="text" placeholder="Choose username" name="uname" required><br>
+
+            <label><b>Password:&nbsp</b></label>
+            <input type="password" placeholder="Choose password" name="pass" required><br>
+
+            <label><b>Password again:&nbsp</b></label>
+            <input type="password" placeholder="Choose password" name="passa" required><br>
+
+            <label><b>Branch:&nbsp</b></label>
+            <select name="branch" placeholder="#">
+                <option value="#"></option>
+                <option value="CSE">CSE</option>
+                <option value="MNC">MNC</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Electronics">Electronic</option>
+            </select>
+            
+            <label><b>Year of joining:</b></label>
+            <input type="number" placeholder="1" name="year" required><br><br>  
+
+            <label><b>Group:</b></label>
+            <select name="group">
+                <option value="CPG">Competitive Programming Group</option>
+                <option value="ML">Machine Learning Group</option>
+                <option value="InfoSec">Information Security Group</option>
+                <option value="Dev">Development Group</option>
+                <option value="Finance">Finance Group</option>
+            </select><br>
+
+            <label><b>Phone Number:</b></label>
+            <input type="text" placeholder="Phone number" name="phone" required>  <br>
+
+            <label><b>Email id:</b></label>          
+            <input type="email" placeholder="username@example.com" name="email" required><br>
+            <br><button type="submit">Register as a member</button><br>
+        </div>
+    </form>
+            
+</body>
+</html>

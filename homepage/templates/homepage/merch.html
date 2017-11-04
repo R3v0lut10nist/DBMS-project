@@ -1,0 +1,182 @@
+<html>
+<head>
+	<style>
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+
+header li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+header li:last-child {
+    border-right: none;
+}
+
+header li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #10004C;
+}
+
+header li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*form {
+    border: 3px solid #f1f1f1;
+}*/
+
+input[type=text], input[type=password] {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 8px 5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #10004C;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+td {
+    padding: 100px;
+}
+
+.w3-check,.w3-radio{width:24px;height:24px;position:relative;top:6px}
+
+.modal-open{overflow:hidden}.modal{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1050;display:none;overflow:hidden;-webkit-overflow-scrolling:touch;outline:0}.modal.fade .modal-dialog{-webkit-transition:-webkit-transform .3s ease-out;-o-transition:-o-transform .3s ease-out;transition:transform .3s ease-out;-webkit-transform:translate(0,-25%);-ms-transform:translate(0,-25%);-o-transform:translate(0,-25%);transform:translate(0,-25%)}.modal.in .modal-dialog{-webkit-transform:translate(0,0);-ms-transform:translate(0,0);-o-transform:translate(0,0);transform:translate(0,0)}.modal-open .modal{overflow-x:hidden;overflow-y:auto}.modal-dialog{position:relative;width:auto;margin:10px}.modal-content{position:relative;background-color:#fff;-webkit-background-clip:padding-box;background-clip:padding-box;border:1px solid #999;border:1px solid rgba(0,0,0,.2);border-radius:6px;outline:0;-webkit-box-shadow:0 3px 9px rgba(0,0,0,.5);box-shadow:0 3px 9px rgba(0,0,0,.5)}.modal-backdrop{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1040;background-color:#000}.modal-backdrop.fade{filter:alpha(opacity=0);opacity:0}.modal-backdrop.in{filter:alpha(opacity=50);opacity:.5}.modal-header{padding:15px;border-bottom:1px solid #e5e5e5}.modal-header .close{margin-top:-2px}.modal-title{margin:0;line-height:1.42857143}.modal-body{position:relative;padding:15px}.modal-footer{padding:15px;text-align:right;border-top:1px solid #e5e5e5}.modal-footer .btn+.btn{margin-bottom:0;margin-left:5px}.modal-footer .btn-group .btn+.btn{margin-left:-1px}.modal-footer .btn-block+.btn-block{margin-left:0}.modal-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}@media (min-width:768px){.modal-dialog{width:600px;margin:30px auto}.modal-content{-webkit-box-shadow:0 5px 15px rgba(0,0,0,.5);box-shadow:0 5px 15px rgba(0,0,0,.5)}.modal-sm{width:300px}}@media (min-width:992px){.modal-lg{width:900px}}
+
+
+	</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body bgcolor=#aaaaaa>
+
+	<header>
+    <h1 align="center"><i>Club of Programmers, IIT (BHU)</i> </h1>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li class="dropdown"><a href="javascript:void(0)" class="dropbtn">Groups</a>
+        <div class="dropdown-content">
+      <a href="/cpg">CPG</a>
+      <a href="/ml">Machine Learning</a>
+      <a href="/dev">Development</a>
+      <a href="/infosec">Information Security</a>
+      <a href="/fin">Finance</a>
+    </div>
+        </li>
+        <!-- <li><a href="/sponsors">Sponsors</a></li> -->
+        <li class="active"><a href="/merchandise">Merchandise</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/admin">Admins</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="/profile">Dashboard</a></li>
+            <li style="float:right"><a href="/logout">Logout</a></li>
+            <li style="float:right"><a href="/notifications">Notifications</a></li>
+        {% else %}
+            <li style="float:right"><a href="/register">Register</a></li>
+            <li style="float:right"><a href="/login">Login</a></li>
+        {% endif %}
+    </ul>
+	</header>
+    <form action="/order">
+    {% if request.user.is_authenticated %}
+    <button style="float:right;background-color:red" type="submit">Order</button>
+    {% endif %}
+    <h1><b><i>COPS Products: </i></b></h1>
+    <!-- {{merch}} -->
+    <table>
+    {% for column in merch %}
+        <tr>
+        {% for tee in column %}
+        <td>
+            <input class="w3-check" type="checkbox" name="{{tee.0}}">
+            <ul style="list-style-type: none;">
+            <a href="/merch_des/{{tee.0}}"><li>Design{{tee.0}}</li></a>
+            <li>Price : {{tee.2}}</li>
+            <li>Designed by : {{tee.3}}</li>
+            </ul>
+        </td>
+        {% endfor %}<br>
+        </tr>
+    {% endfor %}
+    </table>
+    </form>
+    <form action="/send_designs/">
+        <div style="text-align:center">
+        <button style="width:50%; float:center" type="submit">Send us your designs!</button>
+        </div>
+    </form>
+</body>
+</html>
